@@ -12,6 +12,7 @@ class cmdUtils:
     Red = '\033[91m'
     Grey = '\033[0m' # Default
     White = '\033[1m'
+    Sound = '\a'
 
 # console clearer
 def cls():
@@ -48,7 +49,6 @@ if __name__ == "__main__":
     cls()
     framerate = input("Type the desired Framerate:")
     if framerate == "": framerate = 24
-    # framerate = 24
 
     ### Get dragndroped file and add file output suffix
     droppedFile = sys.argv[1]
@@ -58,8 +58,14 @@ if __name__ == "__main__":
     print(f'{cmdUtils.Green}Output file will be: {outputPath}{cmdUtils.Grey}')
 
     ### Run main fun
-    encode_video(droppedFile, outputPath, framerate)
+    try:
+        encode_video(droppedFile, outputPath, framerate)
 
-    print(cmdUtils.Sound)
-    print(f"{cmdUtils.Green}Encoding succesful. This window will close after 10 seconds.{cmdUtils.Grey}")
-    subprocess.call('timeout /t 10')
+        print(cmdUtils.Sound)
+        print(f"{cmdUtils.Green}Encoding succesful.{cmdUtils.Grey}")
+    except Exception as e:
+        print(cmdUtils.Sound)
+        print(f"{cmdUtils.Red}An error occured.")
+        print(f"{cmdUtils.Tan}{e}{cmdUtils.Grey}")
+    finally:
+        input("\nPress Enter to exit...")
